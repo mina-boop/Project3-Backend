@@ -27,9 +27,9 @@ router.patch("/me", requireAuth, (req, res, next) => {
 
 //Get the memes of the current User
 
-router.get ("/memes/:id",requireAuth, (req,res,next)=>{
+router.get ("/me/memes",requireAuth, (req,res,next)=>{
 
-  Item.findById(req.session.currentUser, req.params._id, {new:true})
+  Item.find(req.session.currentUser)
   .then((memeDocument)=>{res.status(200).json(memeDocument);
 
   })
