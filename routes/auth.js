@@ -32,7 +32,7 @@ router.post("/signin", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstName, lastName , zodiacSign, city, profileImg} = req.body;
 
   User.findOne({ email })
     .then((userDocument) => {
