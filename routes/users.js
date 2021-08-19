@@ -1,6 +1,6 @@
 const express = require("express");
 const User = require("../models/User");
-const Meme=require("../models/Meme");
+const Meme = require("../models/Meme");
 const requireAuth = require("../middlewares/requireAuth");
 const router = express.Router();
 
@@ -27,16 +27,14 @@ router.patch("/me", requireAuth, (req, res, next) => {
 
 //Get the memes of the current User
 
-router.get ("/me/memes",requireAuth, (req,res,next)=>{
-
-  Item.find(req.session.currentUser)
-  .then((memeDocument)=>{res.status(200).json(memeDocument);
-
-  })
-  .catch((error)=>{
-    res.status(404).json;
-  });
+router.get("/me/memes", requireAuth, (req, res, next) => {
+  Meme.find(req.session.currentUser)
+    .then((memeDocument) => {
+      res.status(200).json(memeDocument);
+    })
+    .catch((error) => {
+      res.status(404).json;
+    });
 });
-
 
 module.exports = router;
