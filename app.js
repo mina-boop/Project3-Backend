@@ -49,11 +49,11 @@ app.use("/api/users", require("./routes/users"));
 app.use("/api/memes", require ("./routes/memes"));
 
 // 404 Middleware
-app.use((req, res, next) => {
-  const error = new Error("Ressource not found.");
-  error.status = 404;
-  next(error);
-});
+// app.use((req, res, next) => {
+//   const error = new Error("Ressource not found.");
+//   error.status = 404;
+//   next(error);
+// });
 
 // Error handler middleware
 // If you pass an argument to your next function in any of your routes or middlewares

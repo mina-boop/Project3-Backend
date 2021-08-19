@@ -6,8 +6,24 @@ const Meme = require("../models/Meme");
 
 //Post Items infos:
 
-router.post("/", requireAuth, (req, res, next) => {
-  Meme.create(req.body).then(createdDocument);
+router.post("/create", (req, res, next) => {
+  Meme.create(req.body)
+  .then((memeDocument)=>{res.status(201).json(memeDocument);
+  })
+  .catch((e)=>console.log(e))
 });
+
+router.patch("/:id", requireAuth, (req,res,next)=>{
+  Meme.findByIdAndUpdate(req.params.id, meme, {new:true})
+  .then((updateDocument)=>{
+    return res.status(200).json(updateDocument);
+  })
+  .catch((e)=>console.log(e))
+})
+
+
+
+
+
 
 module.exports = Meme;
