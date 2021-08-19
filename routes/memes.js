@@ -2,22 +2,12 @@ const express = require("express");
 const User = require("../models/User");
 const requireAuth = require("../middlewares/requireAuth");
 const router = express.Router();
-const Item = require ("../models/Items");
-
-
+const Meme = require("../models/Meme");
 
 //Post Items infos:
 
+router.post("/", requireAuth, (req, res, next) => {
+  Meme.create(req.body).then(createdDocument);
+});
 
-
-
-
-
-
-
-
-
-
-
-
-module.exports=items;
+module.exports = Meme;

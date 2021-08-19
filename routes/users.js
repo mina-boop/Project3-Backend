@@ -1,10 +1,10 @@
 const express = require("express");
 const User = require("../models/User");
+const Meme = require("../models/Meme");
 const requireAuth = require("../middlewares/requireAuth");
 const router = express.Router();
 
-
-//Get the User Infos:
+//Get the User personnal Infos:
 router.get("/me", requireAuth, (req, res, next) => {
   User.findById(req.session.currentUser._id)
     .then((user) => {
@@ -13,22 +13,28 @@ router.get("/me", requireAuth, (req, res, next) => {
     .catch(next);
 });
 
-
-//Update the User Infos:
+//Update the User personnal Infos:
 router.patch("/me", requireAuth, (req, res, next) => {
   User.findByIdAndUpdate(req.session.currentUser, req.body, { new: true })
     .select("-password")
-    .then((userDocument) => {
-      res.status(200).json(userDocument);
+    .then((updatedDocument) => {
+      res.status(200).json(updatedDocument);
     })
     .catch((error) => {
       res.status(404).json;
     });
 });
 
+//Get the memes of the current User
 
-
-
-
+router.get("/me/memes", requireAuth, (req, res, next) => {
+  Meme.find(req.session.currentUser)
+    .then((memeDocument) => {
+      res.status(200).json(memeDocument);
+    })
+    .catch((error) => {
+      res.status(404).json;
+    });
+});
 
 module.exports = router;
