@@ -5,7 +5,7 @@ const requireAuth = require("../middlewares/requireAuth");
 const router = express.Router();
 
 //Get the User personnal Infos:
-router.get("/me", requireAuth, (req, res, next) => {
+router.get("/me", (req, res, next) => {
   User.findById(req.session.currentUser._id)
     .then((user) => {
       res.status(200).json(user);
