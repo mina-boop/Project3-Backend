@@ -4,23 +4,43 @@ const requireAuth = require("../middlewares/requireAuth");
 const router = express.Router();
 const Meme = require("../models/Meme");
 
-//Post Items infos:
+//Post Meme from the current user: OK
+router.post("/create", requireAuth, (req, res, next) => {
+  User.findById(req.session.currentUser).then((userDocument) => {
+    Meme.create(userDocument._id, req.body)
+      .then((memeDocument) => {
+        res.status(201).json(memeDocument);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }).catch()
 
-router.post("/create", (req, res, next) => {
-  Meme.create(req.body)
-  .then((memeDocument)=>{res.status(201).json(memeDocument);
-  })
-  .catch((e)=>console.log(e))
 });
+// Modified an Meme form the current user
+router.patch("/:id", requireAuth, (req, res, next) => {
+  User.findById(req.session.currentUser).then((userDocument) => {
+    /*     // Only the current user can modify an meme
+        if (userDocument._id !== req.session.currentUser) {
+          return res.status(400).json({ message: "Invalid credentials" });
+        } */
+    Meme.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      .then((memeUpdatedDocument) => {
+        res.status(201).json(memeUpdatedDocument);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }).catch()
 
-router.patch("/:id", requireAuth, (req,res,next)=>{
-  Meme.findByIdAndUpdate(req.params.id, meme, {new:true})
-  .then((updateDocument)=>{
-    return res.status(200).json(updateDocument);
-  })
-  .catch((e)=>console.log(e))
 })
 
+router.delete("/:id", requireAuth, (req,res,next)=>{
+  Meme.findByIdAndDelete(req.params.id)
+  .then(()=> {return res.status(204);
+  })
+  .catch((error)=>console.log(error))
+})
 
 
 
