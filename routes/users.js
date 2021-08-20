@@ -6,7 +6,7 @@ const router = express.Router();
 
 //Get the User personnal Infos:
 router.get("/me", (req, res, next) => {
-  User.findById(req.session.currentUser._id)
+  User.findById(req.session.currentUser)
     .then((user) => {
       res.status(200).json(user);
     })
