@@ -34,7 +34,7 @@ router.patch("/:id", requireAuth, (req, res, next) => {
   }).catch()
 
 })
-
+//OK delete sur Postman
 router.delete("/:id", requireAuth, (req,res,next)=>{
   Meme.findByIdAndDelete(req.params.id)
   .then(()=> {return res.status(204);
@@ -42,8 +42,17 @@ router.delete("/:id", requireAuth, (req,res,next)=>{
   .catch((error)=>console.log(error))
 })
 
+router.get("/:memeId", (req,res,next)=>{
+Meme.findById(req.params.id)
+.then((memeDocument)=>{
+  if(!memeDocument){
+  return res.status(404).json({message:"Meme not found!"});
+  } return res.status(204).json(memeDocument);
+})
+.catch((error)=>console.log(error))
+
+})
 
 
 
-
-module.exports = Meme;
+module.exports = router;
