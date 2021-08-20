@@ -37,8 +37,6 @@ router.patch("/:id", requireAuth, (req, res, next) => {
   }).catch()
 
 })
-<<<<<<< HEAD
-=======
 //OK delete sur Postman
 router.delete("/:id", requireAuth, (req,res,next)=>{
   Meme.findByIdAndDelete(req.params.id)
@@ -59,6 +57,5 @@ Meme.findById(req.params.id)
 })
 
 
->>>>>>> 93ac74e376612ace1b5973a32790a5defa2a1fbc
 
 module.exports = router;

@@ -29,8 +29,8 @@ const meme = [
       }
 ];
 
-Meme.create(meme)
-.then((memeDoc)=>{
-    console.log(memeDoc)})
-    .catch((e)=>console.log(e))
-.catch((e)=>console.log(e))
+// Meme.create(meme)
+// .then((memeDoc)=>{
+//     console.log(memeDoc)})
+//     .catch((e)=>console.log(e))
+// .catch((e)=>console.log(e))
