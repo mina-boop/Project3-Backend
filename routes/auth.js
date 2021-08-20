@@ -5,6 +5,7 @@ const User = require("../models/User");
 
 const salt = 10;
 
+//Ok in Postman
 router.post("/signin", (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email })
@@ -31,6 +32,8 @@ router.post("/signin", (req, res, next) => {
     .catch(next);
 });
 
+
+//Ok in Postman
 router.post("/signup", (req, res, next) => {
   const { email, password, userName, zodiacSign, city, profileImg } = req.body;
 
@@ -59,6 +62,7 @@ router.post("/signup", (req, res, next) => {
     .catch(next);
 });
 
+//Ok in Postman
 router.get("/logout", (req, res, next) => {
   req.session.destroy(function (error) {
     if (error) next(error);
