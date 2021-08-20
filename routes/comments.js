@@ -6,15 +6,17 @@ const Comment = require("../models/Comments");
 const Meme = require("../models/Meme");
 
 
-//Post Meme from the current user: OK
-router.post("/:id/comment", requireAuth, (req, res, next) => {
-    //add cuurentUser ObjectId
+
+
+//Post comment on the meme and from the current user: OK
+router.post("/:memeId/comment", requireAuth, (req, res, next) => {
     User.findById(req.session.currentUser).then((userDocument) => {
-        Meme.findById(req.params.id).then((memeDocument) => {
+        Meme.findById(req.params.memeId).then((memeDocument) => {
             if (!memeDocument) {
                 return res.status(404).json({ message: "Meme not found" });
             }
-            Comment.create({ creator: userDocument._id, text: req.body, meme: memeDocument._id })
+            console.log(req.body)
+            Comment.create({ creator: userDocument._id, text: req.body.text, meme: memeDocument._id })
                 .then((memeDocument) => {
                     res.status(201).json(memeDocument);
                 })
@@ -26,15 +28,14 @@ router.post("/:id/comment", requireAuth, (req, res, next) => {
     }).catch((error) => console.log(error))
 
 });
-/* // Modified an Meme form the current user
-router.patch("/:id", requireAuth, (req, res, next) => {
+// Modified an Comment of the current user
+router.patch("/:memeId/:commentId", requireAuth, (req, res, next) => {
     User.findById(req.session.currentUser).then((userDocument) => {
-        // Only the current user can modify an meme
-
-        if (userDocument._id !== req.session.currentUser._id) {
+        // check if the user loggin and commentor are the same 
+        if (userDocument._id != req.session.currentUser._id) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
-        Comment.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        Comment.findByIdAndUpdate(req.params.commentId, req.body, { new: true })
             .then((memeUpdatedDocument) => {
                 res.status(201).json(memeUpdatedDocument);
             })
@@ -44,6 +45,8 @@ router.patch("/:id", requireAuth, (req, res, next) => {
     }).catch()
 
 })
+
+/*
 //OK delete sur Postman
 router.delete("/:id", requireAuth, (req, res, next) => {
     Meme.findByIdAndDelete(req.params.id)
