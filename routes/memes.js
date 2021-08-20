@@ -20,8 +20,8 @@ router.post("/create", requireAuth, (req, res, next) => {
 // Modified an Meme form the current user
 router.patch("/:id", requireAuth, (req, res, next) => {
   User.findById(req.session.currentUser).then((userDocument) => {
-    /*     // Only the current user can modify an meme
-        if (userDocument._id !== req.session.currentUser) {
+    // Only the current user can modify an meme
+    /*     if (userDocument._id !== req.session.currentUser._id) {
           return res.status(400).json({ message: "Invalid credentials" });
         } */
     Meme.findByIdAndUpdate(req.params.id, req.body, { new: true })
@@ -35,15 +35,4 @@ router.patch("/:id", requireAuth, (req, res, next) => {
 
 })
 
-router.delete("/:id", requireAuth, (req,res,next)=>{
-  Meme.findByIdAndDelete(req.params.id)
-  .then(()=> {return res.status(204);
-  })
-  .catch((error)=>console.log(error))
-})
-
-
-
-
-
-module.exports = Meme;
+module.exports = router;
