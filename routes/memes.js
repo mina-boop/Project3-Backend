@@ -21,6 +21,12 @@ router.patch("/:id", requireAuth, (req,res,next)=>{
   .catch((e)=>console.log(e))
 })
 
+router.delete("/:id", requireAuth, (req,res,next)=>{
+  Meme.findByIdAndDelete(req.params.id)
+  .then(()=> {return res.status(204);
+  })
+  .catch((error)=>console.log(error))
+})
 
 
 
