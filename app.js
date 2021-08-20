@@ -1,6 +1,5 @@
 require("dotenv").config();
 require("./config/dbConnection");
-require("./Seed/MemeSeed");
 
 
 
