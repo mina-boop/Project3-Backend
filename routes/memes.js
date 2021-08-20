@@ -9,7 +9,7 @@ router.post("/create", requireAuth, (req, res, next) => {
   //add cuurentUser ObjectId
   User.findById(req.session.currentUser).then((userDocument) => {
     const { caption1, caption2 } = req.body
-    Meme.create({ creator: userDocument, caption1: caption1, caption2: caption2 })
+    Meme.create({ creator: userDocument._id, caption1: caption1, caption2: caption2 })
       .then((memeDocument) => {
         res.status(201).json(memeDocument);
       })
@@ -37,28 +37,26 @@ router.patch("/:id", requireAuth, (req, res, next) => {
   }).catch()
 
 })
-<<<<<<< HEAD
-=======
 //OK delete sur Postman
-router.delete("/:id", requireAuth, (req,res,next)=>{
+router.delete("/:id", requireAuth, (req, res, next) => {
   Meme.findByIdAndDelete(req.params.id)
-  .then(()=> {return res.status(204);
-  })
-  .catch((error)=>console.log(error))
+    .then(() => {
+      return res.status(204);
+    })
+    .catch((error) => console.log(error))
 })
 
-router.get("/:memeId", (req,res,next)=>{
-Meme.findById(req.params.id)
-.then((memeDocument)=>{
-  if(!memeDocument){
-  return res.status(404).json({message:"Meme not found!"});
-  } return res.status(204).json(memeDocument);
-})
-.catch((error)=>console.log(error))
+router.get("/:memeId", (req, res, next) => {
+  Meme.findById(req.params.id)
+    .then((memeDocument) => {
+      if (!memeDocument) {
+        return res.status(404).json({ message: "Meme not found!" });
+      } return res.status(204).json(memeDocument);
+    })
+    .catch((error) => console.log(error))
 
 })
 
 
->>>>>>> 93ac74e376612ace1b5973a32790a5defa2a1fbc
 
 module.exports = router;
