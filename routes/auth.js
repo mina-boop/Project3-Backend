@@ -41,7 +41,18 @@ router.post("/signup", (req, res, next) => {
       }
 
       const hashedPassword = bcrypt.hashSync(password, salt);
+<<<<<<< HEAD
       const newUser = { email, userName, zodiacSign, city, profileImg, password: hashedPassword };
+=======
+      const newUser = {
+        email,
+        userName,
+        zodiacSign,
+        city,
+        profileImg,
+        password: hashedPassword,
+      };
+>>>>>>> 08b5bf05817e29d615019d619b895640d5662ddb
 
       User.create(newUser)
         .then(() => {
