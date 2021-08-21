@@ -28,7 +28,7 @@ router.post("/:memeId/comment", requireAuth, (req, res, next) => {
     }).catch((error) => console.log(error))
 
 });
-// Modified an Comment of the current user
+// Modify a comment of the current user
 router.patch("/:memeId/:commentId", requireAuth, (req, res, next) => {
     User.findById(req.session.currentUser).then((userDocument) => {
         // check if the user loggin and commentor are the same 
@@ -46,27 +46,23 @@ router.patch("/:memeId/:commentId", requireAuth, (req, res, next) => {
 
 })
 
-/*
-//OK delete sur Postman
-router.delete("/:id", requireAuth, (req, res, next) => {
-    Meme.findByIdAndDelete(req.params.id)
-        .then(() => {
-            return res.status(204);
-        })
-        .catch((error) => console.log(error))
+
+//delete comment
+router.delete("/:memeId/:commentId", requireAuth, (req, res, next) => {
+    User.findById(req.session.currentUser).then((userDocument) => {
+        if (userDocument._id != req.session.currentUser._id) {
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
+        Comment.findByIdAndDelete(req.params.commentId)
+            .then(() => {
+                res.status(204)
+            })
+            .catch((error) => {
+                res.status(500).json(error);
+            });
+    }).catch()
 })
 
-router.get("/:memeId", (req, res, next) => {
-    Meme.findById(req.params.id)
-        .then((memeDocument) => {
-            if (!memeDocument) {
-                return res.status(404).json({ message: "Meme not found!" });
-            } return res.status(204).json(memeDocument);
-        })
-        .catch((error) => console.log(error))
-
-})
- */
 
 
 module.exports = router;
