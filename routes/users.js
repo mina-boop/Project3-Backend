@@ -6,8 +6,8 @@ const router = express.Router();
 const upload = require("../config/cloudinary");
 
 //Get the User personnal Infos: Ok in Postman
-router.get("/me", (req, res, next) => {
-  User.findById(req.session.currentUser)
+router.get("/me", requireAuth, (req, res, next) => {
+  User.findById(req.session.currentUser._id)
     .then((user) => {
       res.status(200).json(user);
     })
