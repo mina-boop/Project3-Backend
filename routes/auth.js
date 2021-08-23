@@ -35,11 +35,12 @@ router.post("/signin", (req, res, next) => {
 
 
 //Ok in Postman
-router.post("/signup", (req, res, next) => {
-
+router.post("/signup", upload.single("profileImg"),(req, res, next) => {
+  if (req.file) {
+    req.body.profileImg = req.file.path; //  ProfileImage key added to req.body
+  }
   const { email, password, userName, zodiacSign, city, profileImg } = req.body;
-console.log(req.body)
- 
+  
 
   User.findOne({ email })
     .then((userDocument) => {
