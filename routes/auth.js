@@ -36,10 +36,8 @@ router.post("/signin", (req, res, next) => {
 
 //Ok in Postman
 router.post("/signup", upload.single("profileImg"),(req, res, next) => {
-  if (req.file) {
-    req.body.profileImg = req.file.path; //  ProfileImage key added to req.body
-  }
-  const { email, password, userName, zodiacSign, city, profileImg } = req.body;
+
+  const { email, password, userName, zodiacSign, city } = req.body;
   
 
   User.findOne({ email })
@@ -54,9 +52,13 @@ router.post("/signup", upload.single("profileImg"),(req, res, next) => {
         userName,
         zodiacSign,
         city,
-        profileImg,
         password: hashedPassword,
       };
+console.log(req.file)
+/*       if (req.file) {
+        newUser.profileImg = req.file //  ProfileImage key added to req.body
+      }
+ */
 
       User.create(newUser)
         .then(() => {
