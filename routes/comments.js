@@ -7,7 +7,6 @@ const Meme = require("../models/Meme");
 
 
 
-
 //Post comment on the meme and from the current user: OK
 router.post("/:memeId/comment", requireAuth, (req, res, next) => {
     User.findById(req.session.currentUser).then((userDocument) => {
