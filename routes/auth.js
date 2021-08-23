@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const upload = require("../config/cloudinary");
+
 const User = require("../models/User");
 
 const salt = 10;
@@ -34,8 +36,8 @@ router.post("/signin", (req, res, next) => {
 
 
 //Ok in Postman
-router.post("/signup", (req, res, next) => {
-  const { email, password, userName, zodiacSign, city, profileImg } = req.body;
+router.post("/signup", upload.single("profileImg"), (req, res, next) => {
+  const { email, password, userName, zodiacSign, city } = req.body;
 
   User.findOne({ email })
     .then((userDocument) => {
@@ -49,10 +51,11 @@ router.post("/signup", (req, res, next) => {
         userName,
         zodiacSign,
         city,
-        profileImg,
         password: hashedPassword,
       };
-
+      if (req.file) {
+        newUser.profileImg = req.file.path; //  ProfileImage key added to req.body
+      }
       User.create(newUser)
         .then(() => {
           res.sendStatus(201);
