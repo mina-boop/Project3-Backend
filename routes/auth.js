@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const upload = require("../config/cloudinary");
 
 const salt = 10;
 
@@ -34,8 +35,12 @@ router.post("/signin", (req, res, next) => {
 
 
 //Ok in Postman
-router.post("/signup", (req, res, next) => {
+router.post("/signup", upload.single("profileImg"),(req, res, next) => {
+  if (req.file) {
+    req.body.profileImg = req.file.path; //  ProfileImage key added to req.body
+  }
   const { email, password, userName, zodiacSign, city, profileImg } = req.body;
+  
 
   User.findOne({ email })
     .then((userDocument) => {
