@@ -6,7 +6,8 @@ const memeSchema = new Schema(
     creator: { type: Schema.Types.ObjectId, ref: "User" },
     caption1: String,
     caption2: String,
-    memeimage:String
+    name:String, 
+    image:String
   },
   {
     timestamps: true, // show time
