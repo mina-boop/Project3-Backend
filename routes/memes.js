@@ -51,8 +51,18 @@ router.delete("/:id", requireAuth, (req, res, next) => {
     .catch((error) => console.log(error))
 })
 
+
+router.get("/all", (req, res, next) => {
+  Meme.find().populate("creator")
+    .then((memeDocument) => {
+      res.status(201).json(memeDocument)
+    })
+    .catch((error) => console.log(error))
+})
+
+
 router.get("/:memeId", (req, res, next) => {
-  Meme.findById(req.params.id)
+  Meme.findById(req.params.memeId).populate("creator")
     .then((memeDocument) => {
       if (!memeDocument) {
         return res.status(404).json({ message: "Meme not found!" });
@@ -61,6 +71,8 @@ router.get("/:memeId", (req, res, next) => {
     .catch((error) => console.log(error))
 
 })
+
+
 
 
 
