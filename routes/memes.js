@@ -6,26 +6,18 @@ const router = express.Router();
 const Meme = require("../models/Meme");
 
 //Post Meme from the current user: OK
-router.post(
-  "/create",
-  requireAuth,
-  upload.single("memeimage"),
-  (req, res, next) => {
-    //add cuurentUser ObjectId
-    User.findById(req.session.currentUser)
-      .then((userDocument) => {
-        const newMeme = req.body;
-        if (req.file) {
-          newMeme.memeimage = req.file.path; //  ProfileImage key added to req.body
-        }
-        console.log(newMeme);
-        Meme.create({ creator: userDocument._id, ...newMeme })
-          .then((memeDocument) => {
-            res.status(201).json(memeDocument);
-          })
-          .catch((error) => {
-            res.status(500).json(error);
-          });
+router.post("/create", requireAuth, upload.single("memeimage"), (req, res, next) => {
+  //add cuurentUser ObjectId
+  
+  User.findById(req.session.currentUser).then((userDocument) => {
+    const newMeme = req.body
+    if (req.file) {
+      newMeme.memeimage = req.file.path; //  ProfileImage key added to req.body
+    }
+    console.log(newMeme)
+    Meme.create({ creator: userDocument._id, ...newMeme })
+      .then((memeDocument) => {
+        res.status(201).json(memeDocument);
       })
       .catch();
   }
