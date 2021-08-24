@@ -59,13 +59,7 @@ router.post("/signup", upload.single("profileImg"),(req, res, next) => {
       if (req.file) {
         newUser.profileImg = req.file.path; //  ProfileImage key added to req.body
       }
-
-// console.log(req.file)
-// /*       if (req.file) {
-//         newUser.profileImg = req.file //  ProfileImage key added to req.body
-//       }
-//  */
-""
+      
       User.create(newUser)
         .then(() => {
           res.sendStatus(201);
