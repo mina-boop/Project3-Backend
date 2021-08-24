@@ -7,7 +7,7 @@ const memeSchema = new Schema(
     caption1: String,
     caption2: String,
     name:String, 
-    image:String
+    memeimage:String
   },
   {
     timestamps: true, // show time
