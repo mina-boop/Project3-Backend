@@ -8,6 +8,7 @@ const Meme = require("../models/Meme");
 //Post Meme from the current user: OK
 router.post("/create", requireAuth, upload.single("memeimage"), (req, res, next) => {
   //add cuurentUser ObjectId
+  
   User.findById(req.session.currentUser).then((userDocument) => {
     const newMeme = req.body
     if (req.file) {
