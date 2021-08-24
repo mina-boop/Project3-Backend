@@ -1,15 +1,20 @@
 const express = require("express");
 const User = require("../models/User");
 const requireAuth = require("../middlewares/requireAuth");
+const upload = require("../config/cloudinary");
 const router = express.Router();
 const Meme = require("../models/Meme");
 
 //Post Meme from the current user: OK
-router.post("/create", requireAuth, (req, res, next) => {
+router.post("/create", requireAuth, upload.single("memeimage"), (req, res, next) => {
   //add cuurentUser ObjectId
   User.findById(req.session.currentUser).then((userDocument) => {
-    const { caption1, caption2 } = req.body
-    Meme.create({ creator: userDocument._id, caption1: caption1, caption2: caption2 })
+    const newMeme = req.body
+    if (req.file) {
+      newMeme.memeimage = req.file.path; //  ProfileImage key added to req.body
+    }
+    console.log(newMeme)
+    Meme.create({ creator: userDocument._id, ...newMeme })
       .then((memeDocument) => {
         res.status(201).json(memeDocument);
       })
