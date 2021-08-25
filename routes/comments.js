@@ -14,8 +14,7 @@ router.post("/:memeId/comment", requireAuth, (req, res, next) => {
             if (!memeDocument) {
                 return res.status(404).json({ message: "Meme not found" });
             }
-            console.log(req.body)
-            Comment.create({ creator: userDocument._id, text: req.body.text, meme: memeDocument._id })
+            Comment.create({ creator: userDocument._id, text: req.body.comment, meme: memeDocument._id })
                 .then((memeDocument) => {
                     res.status(201).json(memeDocument);
                 })
@@ -62,6 +61,14 @@ router.delete("/:memeId/:commentId", requireAuth, (req, res, next) => {
     }).catch()
 })
 
+router.get("/:memeId/allComments", (req, res, next) => {
+    Comment.find({ meme: req.params.memeId }).populate()
+        .then((commentDocument) => {
+            console.log(commentDocument)
+            res.status(201).json(commentDocument)
+        })
+        .catch((error) => console.log(error))
+})
 
 
 module.exports = router;
