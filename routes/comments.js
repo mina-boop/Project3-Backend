@@ -47,10 +47,7 @@ router.patch("/:memeId/:commentId", requireAuth, (req, res, next) => {
 
 //delete comment
 router.delete("/:memeId/:commentId", requireAuth, (req, res, next) => {
-    User.findById(req.session.currentUser).then((userDocument) => {
-        if (userDocument._id != req.session.currentUser._id) {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
+
         Comment.findByIdAndDelete(req.params.commentId)
             .then(() => {
                 res.status(204)
@@ -58,11 +55,11 @@ router.delete("/:memeId/:commentId", requireAuth, (req, res, next) => {
             .catch((error) => {
                 res.status(500).json(error);
             });
-    }).catch()
+
 })
 
 router.get("/:memeId/allComments", (req, res, next) => {
-    Comment.find({ meme: req.params.memeId }).populate()
+    Comment.find({ meme: req.params.memeId }).populate("creator")
         .then((commentDocument) => {
             console.log(commentDocument)
             res.status(201).json(commentDocument)
